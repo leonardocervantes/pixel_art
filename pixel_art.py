@@ -15,7 +15,6 @@ def process(img, pxl):
     pxl_sz = np.size(pxl, 0)
     print("width: ", wdth)
     print("height: ", hght)
-    print("pixel size", pxl_sz)
     
     col_sz  = int(wdth/pxl_sz)
     row_sz =  int(hght/pxl_sz)
@@ -48,8 +47,8 @@ def process(img, pxl):
     return
 
 def blowup(pxl_smol, pxl_big, scale, bits):
-    for i in range(bit):
-        for j in range(bit):
+    for i in range(bits):
+        for j in range(bits):
             
             b = pxl_smol[i, j, B]
             g = pxl_smol[i, j, G]
@@ -63,6 +62,7 @@ def blowup(pxl_smol, pxl_big, scale, bits):
             pxl_big[row_start:row_end, col_start:col_end, B] = b
             pxl_big[row_start:row_end, col_start:col_end, G] = g
             pxl_big[row_start:row_end, col_start:col_end, R] = r
+    return
 
 
 
@@ -72,7 +72,6 @@ def convert_image(file, bits):
     
     # create bitxbit image
     pxl = np.zeros((bits, bits, 3), np.uint8)
-
 
     # process image, average and put into new image
     process(img, pxl)
@@ -88,15 +87,12 @@ def convert_image(file, bits):
     pixel_file = "out/{}.jpg".format(file_name)
 
     cv2.imwrite(pixel_file, pxl_big)
-
-
-
-
+    return
 
 if __name__ == "__main__":
 
     if "-animal" in sys.argv:
-        bit = 32
+        bits = 32
 
     if len(sys.argv) < 2:
         print("Need a file")
@@ -104,4 +100,4 @@ if __name__ == "__main__":
     
     image_file = sys.argv[1]
 
-    convert_image(image_file, bit)
+    convert_image(image_file, bits)
